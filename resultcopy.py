@@ -51,18 +51,9 @@ if __name__ == "__main__":
         seq = '-'.join(seq_list)
         body = {'seq':seq, 'filepath':filepath, 'token':API_KEY}
         logging.critical(body)
+        exit(0)
 
     except Exception as e:
         logging.error('---except exception---')
-        logging.error(e)
-        exit(1)
-
-    try:
-        logging.critical('POST_API')
-        result = requests.post(API_Endpoint, data=json.dumps(body), headers=headers)
-        logging.critical('FINISH')
-        exit(0)
-    except Exception as e:
-        logging.error('---API_Error---')
         logging.error(e)
         exit(1)
