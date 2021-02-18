@@ -34,7 +34,7 @@ if __name__ == "__main__":
         logging.critical('search_json')
         json_path_list = search(bucket, SOURCE_DIR+'/json/'+SOURCE_FILE, '.json')
         logging.critical('search_jpg')
-        jpg_path_list = search(bucket, SOURCE_DIR+'/jpg/'+SOURCE_FILE, '.jpg')
+        jpg_path_list = search(bucket, SOURCE_DIR+'/image/'+SOURCE_FILE, '.jpg')
 
         logging.critical('copy_json')
         for json_path in json_path_list:
