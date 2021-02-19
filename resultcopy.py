@@ -44,13 +44,13 @@ if __name__ == "__main__":
         tmp_json = tmp + 'tmp.json'
         logging.critical('copy_json')
         for json_path in json_path_list:
-            bucket.download_file(json_path, tmp_input)
+            bucket.download_file(json_path, tmp_json)
             copy_path = json_path.replace(SOURCE_DIR, COPY_DIR)
             copy_json_path = copy_path.replace(SOURCE_FILE, COPY_FILE)
             json_open = open(tmp_json, 'r')
             json_load = json.load(json_open)
             json_load['UserInfo'][0]['ID'] = COPY_FILE
-            with open(tmp_file, 'w') as outfile:
+            with open(tmp_json, 'w') as outfile:
                 json.dump(json_load, outfile)
             bucket.upload_file(tmp_json, copy_json_path)
             # s3.copy_object(Bucket=BUCKET_NAME, Key=copy_json_path, CopySource={'Bucket': BUCKET_NAME, 'Key': json_path})
