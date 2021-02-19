@@ -4,6 +4,7 @@ import json
 import requests
 import os
 import logging
+import tempfile
 
 def search(bucket, dst_dir, sufix):
     ret_list = []
@@ -36,11 +37,23 @@ if __name__ == "__main__":
         logging.critical('search_jpg')
         jpg_path_list = search(bucket, SOURCE_DIR+'/image/'+SOURCE_FILE, '.jpg')
 
+
+        tmpdir = tempfile.TemporaryDirectory()
+        tmp = tmpdir.name + '/'
+
+        tmp_json = tmp + 'tmp.json'
         logging.critical('copy_json')
         for json_path in json_path_list:
+            bucket.download_file(json_path, tmp_input)
             copy_path = json_path.replace(SOURCE_DIR, COPY_DIR)
             copy_json_path = copy_path.replace(SOURCE_FILE, COPY_FILE)
-            s3.copy_object(Bucket=BUCKET_NAME, Key=copy_json_path, CopySource={'Bucket': BUCKET_NAME, 'Key': json_path})
+            json_open = open(tmp_json, 'r')
+            json_load = json.load(json_open)
+            json_load['UserInfo'][0]['ID'] = COPY_FILE
+            with open(tmp_file, 'w') as outfile:
+                json.dump(json_load, outfile)
+            bucket.upload_file(tmp_json, copy_json_path)
+            # s3.copy_object(Bucket=BUCKET_NAME, Key=copy_json_path, CopySource={'Bucket': BUCKET_NAME, 'Key': json_path})
 
         logging.critical('copy_jpg')
         for jpg_path in jpg_path_list:
