@@ -50,6 +50,7 @@ if __name__ == "__main__":
             json_open = open(tmp_json, 'r')
             json_load = json.load(json_open)
             json_load['UserInfo'][0]['ID'] = COPY_FILE
+            json_load['UserInfo'][0]['cheat_snap'] = COPY_DIR + '/image/' + COPY_FILE
             with open(tmp_json, 'w') as outfile:
                 json.dump(json_load, outfile)
             bucket.upload_file(tmp_json, copy_json_path)
